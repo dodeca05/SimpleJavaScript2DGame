@@ -1,0 +1,192 @@
+<!DOCTYPE htm>
+<meta charset='UTF-8'/>
+<html>
+<head>
+<title>Snack Game</title> 
+<style>
+.header {
+	width:100%;
+		height:15%;
+		font-size:500%;
+		font-family:'Bauhaus 93';
+		}
+.nav{
+	width:70%;
+	height:7%;
+	background:skyblue; 
+	font-size:30px;
+	float:left;
+	margin-bottom:20px;
+	}
+.aside{
+	width:15%;
+	height:100%;
+	float:left;
+
+}
+.section{
+	width:70%;
+	height:100%;
+	float:left;
+	}
+</style>
+</head>
+<script src="./GameInfo.js"></script>
+<script>
+var Post={
+	Name:"",
+	Pwd:"",
+	Cnt:"",
+	
+};
+var state=0
+var ForumInfo=new Array();
+</script>
+
+<body style='font-family:문체부 돋음체'>
+<aside class='aside'> </aside>
+<header class='header'>
+<span style="color:orange">Snack</span>Game
+</header>
+<nav class='nav'>
+바로가기메뉴  | <a class ="a" href='./Main.html' style="text-decoration:none;color:black">홈</a> |  <a href='./GameList.html' style="text-decoration:none;color:black">게임목록</a> |  <a href='./Rank.html' style="text-decoration:none;color:black">랭킹</a> |  <a href='./Forum.html' style="text-decoration:none;color:black">공략게시판</a>
+</nav>
+
+<section class='section'>
+<strong style="font-size:200%">공략게시판</strong><br>
+<div id="forumhead" style="text-align:center;margin-bottom:20px"">
+게시판 선택
+</div>
+<div id="forumbody" style="text-align:center">
+</div>
+<script>
+ 
+ var parent=document.getElementById("forumhead")
+ var sel=document.createElement("select");
+ sel.setAttribute("name","game")
+ 
+ function selChange(view){
+state=0
+
+ var parent2=document.getElementById("forumbody");
+ parent2.setAttribute("style","text-align:center");
+parent2.innerHTML="";
+ if(sel.value<GameLst.length)
+	{
+	ForumInfo=JSON.parse(localStorage.getItem(GameLst[sel.value].GameName+"_Forum"));
+	
+ 
+	
+	}
+ else
+	{
+	ForumInfo=JSON.parse(localStorage.getItem("Free_Forum"));
+	}
+	if(ForumInfo==null){
+	
+	ForumInfo=new Array()
+	return;
+	}
+	for(var i=0;i<ForumInfo.length;i++)
+	{
+		var cxtTitle=document.createElement("span");
+		cxtTitle.setAttribute("id",i);
+		cxtTitle.setAttribute("onclick","selChange("+i+")");
+		cxtTitle.innerHTML=ForumInfo[i].Title;
+		
+		
+		var delBtn=null
+		if(i==view){
+		cxtTitle.innerHTML+="<p style=\"text-align:left\">작성자 : "+ForumInfo[i].Name+"<br><br>"+ForumInfo[i].Cnt+"</p><br>";
+		
+		delBtn=document.createElement("input");
+		delBtn.setAttribute("type","button");
+		delBtn.setAttribute("value","삭제");
+		delBtn.setAttribute("onclick","delW("+i+")");
+		
+		
+		}
+		cxtTitle.innerHTML+="<hr>";
+		parent2.appendChild(cxtTitle);
+		if(delBtn!=null){
+		parent2.appendChild(delBtn);
+		parent2.innerHTML+="<hr>";
+		}
+		
+	}
+ }
+ 
+ sel.setAttribute("onchange","selChange(-1)")
+ var i;
+ for(i=0;i<GameLst.length;i++)
+ {
+	var op=document.createElement("option");
+	op.setAttribute("value",i);
+	op.innerHTML=GameLst[i].GameName+" 공략게시판";
+	sel.appendChild(op)
+ }
+ var op=document.createElement("option");
+	op.setAttribute("value",i);
+	op.innerHTML="자유 게시판";
+	sel.appendChild(op)
+ parent.appendChild(sel)
+ selChange(-1);
+
+
+
+
+
+function Read2write(){
+if(state==1){
+state=0
+//글 추가 내용
+var newpost={
+	Title:document.getElementById("wtitle").value,
+	Name:document.getElementById("wname").value,
+	Pwd:document.getElementById("wpwd").value,
+	Cnt:document.getElementById("wta").value.replace(/\n/gi, "<br>")
+}
+//if(ForumInfo==null)ForumInfo=new Array();
+ForumInfo[ForumInfo.length]=newpost
+if(sel.value<GameLst.length)
+localStorage.setItem(GameLst[sel.value].GameName+"_Forum",JSON.stringify(ForumInfo));
+else
+localStorage.setItem("Free_Forum",JSON.stringify(ForumInfo));
+
+selChange(-1);
+return;
+}
+state=1
+var parent2=document.getElementById("forumbody");
+parent2.setAttribute("style","text-align:left");
+parent2.innerHTML="  제목 : <input id=\"wtitle\" type=\"text\" value=\"\"><br> 작성자 : <input id=\"wname\"type=\"text\" value=\"\"><br>비밀번호 : <input id=\"wpwd\" type=\"password\" value=\"\"><br><textarea id=\"wta\"cols=70 rows=15>내용을 입력해주세요</textarea>";
+}
+
+
+function delW(index)
+{
+
+	var pwd=prompt("비밀번호?")
+	if(pwd!=ForumInfo[index].Pwd)
+	{
+	alert("비밀번호가 틀렸습니다.")
+	
+	}
+	
+	else{
+	ForumInfo.splice(index,1)
+	if(sel.value<GameLst.length)
+	localStorage.setItem(GameLst[sel.value].GameName+"_Forum",JSON.stringify(ForumInfo));
+	else
+	localStorage.setItem("Free_Forum",JSON.stringify(ForumInfo));
+	
+	selChange(-1);
+	
+	}
+}
+</script>
+<input type="button" id="writeBtn" value="글쓰기" onclick="Read2write()">
+</section>
+<aside class='aside'> </aside>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE htm>
+<meta charset='UTF-8'/>
+<html>
+<head>
+<title>Snack Game</title> 
+<style>
+.canvas{
+	background:#00ee00
+	
+	}	
+.header {
+	width:100%;
+		height:15%;
+		font-size:500%;
+		font-family:'Bauhaus 93';
+		}
+.nav{
+	width:70%;
+	height:7%;
+	background:skyblue; 
+	font-size:30px;
+	float:left;
+	margin-bottom:20px;
+	}
+.aside{
+	width:15%;
+	height:100%;
+	float:left;
+
+}
+.section{
+	width:70%;
+	height:100%;
+	float:left;
+	}
+</style>
+</head>
+<script src="./GameInfo.js"></script>
+<body style='font-family:문체부 돋음체'>
+<aside class='aside'> </aside>
+<header class='header'>
+<span style="color:orange">Snack</span>Game
+</header>
+<nav class='nav'>
+바로가기메뉴  | <a class ="a" href='../../Main.html' style="text-decoration:none;color:black">홈</a> |  <a href='../../GameList.html' style="text-decoration:none;color:black">게임목록</a> |  <a href='../../Rank.html' style="text-decoration:none;color:black">랭킹</a> |  <a href='../../Forum.html' style="text-decoration:none;color:black">공략게시판</a>
+</nav>
+
+<section class='section'>
+<strong style="font-size:200%">블랙잭</strong><br>
+<canvas id="myCanvas" width="1024dp" height="720dp" class="canvas"></canvas>
+	<script src="./JH2DGameCore.js"></script>
+	<script src="./game.js"></script>
+
+</section>
+<aside class='aside'> </aside>
+</body>
+</html>

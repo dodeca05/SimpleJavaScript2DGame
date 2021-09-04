@@ -1,0 +1,109 @@
+<!DOCTYPE htm>
+<meta charset='UTF-8'/>
+<html>
+<head>
+<title>Snack Game</title> 
+<style>
+.header {
+	width:100%;
+		height:15%;
+		font-size:500%;
+		font-family:'Bauhaus 93';
+		}
+.nav{
+	width:70%;
+	height:7%;
+	background:skyblue; 
+	font-size:30px;
+	vertical-align: middle;
+	float:left;
+	margin-bottom:20px;
+	}
+.aside{
+	width:15%;
+	height:100%;
+	float:left;
+
+}
+.section{
+	width:70%;
+	height:100%;
+	float:left;
+	}
+.box{wider:100%;
+height:20%;
+margin-bottom:100px}
+</style>
+</head>
+
+<body style='font-family:문체부 돋음체'>
+<script src="./GameInfo.js"></script>
+<aside class='aside'> </aside>
+<header class='header'>
+<span style="color:orange">Snack</span>Game
+</header>
+<nav class='nav'>
+바로가기메뉴  | <a class ="a" href='./Main.html' style="text-decoration:none;color:black">홈</a> |  <a href='./GameList.html' style="text-decoration:none;color:black">게임목록</a> |  <a href='./Rank.html' style="text-decoration:none;color:black">랭킹</a> |  <a href='./Forum.html' style="text-decoration:none;color:black">공략게시판</a>
+</nav>
+
+<section class='section'>
+<strong style="font-size:200%">추천게임</strong><br><hr>
+오늘은 이게임 어떠세요?<br><br>
+
+<script>
+var index=Math.floor(Math.random() *GameLst.length)
+document.write("<strong style=\"font-size:20px\">",GameLst[index].GameName,"</strong><br>")
+</script>
+<div class='box'>
+<img id="ReTN" width="300dp" style="float:left;margin-right:20px"/>
+<p id="ReEX"/>
+<script>
+var img=document.getElementById("ReTN")
+img.setAttribute("src",GameLst[index].ThumnailSrc)
+var ex=document.getElementById("ReEX")
+ex.innerHTML=GameLst[index].DetailExp+"<br><br>";
+
+var linkbtn=document.createElement("a");
+linkbtn.setAttribute("href",GameLst[index].Link)
+linkbtn.setAttribute("class","a");
+linkbtn.setAttribute("style","text-decoration:none;color:black;background-color:skyblue");
+linkbtn.innerHTML="▶지금바로 하러 가기";
+ex.appendChild(linkbtn);
+</script>
+<br>
+</div>
+
+<br>
+<strong style="font-size:200%">인기게임</strong><br><hr>
+<img id="pTN" width="300dp" style="float:left;margin-right:20px"/>
+<p id="pEX"/>
+<script>
+var popularGame=GameLst[0]
+var maxP=0;
+GameLst.forEach(function(game){
+if(localStorage.getItem(game.GameName+"_Rank")==null)return;
+var temp=JSON.parse(localStorage.getItem(game.GameName+"_Rank")).Name.length;
+if(temp>maxP)
+{
+maxP=temp;
+popularGame=game;
+}
+})
+
+
+var img=document.getElementById("pTN")
+img.setAttribute("src",popularGame.ThumnailSrc)
+var ex=document.getElementById("pEX")
+ex.innerHTML=popularGame.DetailExp+"<br><br>";
+
+var linkbtn=document.createElement("a");
+linkbtn.setAttribute("href",popularGame.Link)
+linkbtn.setAttribute("class","a");
+linkbtn.setAttribute("style","text-decoration:none;color:black;background-color:skyblue");
+linkbtn.innerHTML="▶지금바로 하러 가기";
+ex.appendChild(linkbtn);
+</script>
+</section>
+<aside class='aside'> </aside>
+</body>
+</html>
